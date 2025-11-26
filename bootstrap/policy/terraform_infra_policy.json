@@ -82,7 +82,8 @@
         "iam:ListRolePolicies",
         "iam:ListAttachedRolePolicies",
         "iam:ListInstanceProfilesForRole",
-        "iam:PassRole"
+        "iam:PassRole",
+        "iam:TagRole"
       ],
       "Resource": "arn:aws:iam::${account_id}:role/*"
     },
@@ -142,7 +143,10 @@
         "ssm:GetParameters",
         "ssm:GetParametersByPath"
       ],
-      "Resource": "arn:aws:ssm:${region}:${account_id}:parameter/*"
+      "Resource": [
+        "arn:aws:ssm:${region}:${account_id}:parameter/*",
+        "arn:aws:ssm:${region}::parameter/aws/service/*"
+      ]
     },
     {
       "Sid": "ParameterStoreWriteAccess",
@@ -173,9 +177,70 @@
         "iam:DeletePolicyVersion",
         "iam:GetPolicy",
         "iam:GetPolicyVersion",
-        "iam:ListPolicyVersions"
+        "iam:ListPolicyVersions",
+        "iam:TagPolicy"
       ],
       "Resource": "arn:aws:iam::${account_id}:policy/*"
+    },
+    {
+      "Sid": "EKSClusterAccess",
+      "Effect": "Allow",
+      "Action": [
+        "eks:CreateCluster",
+        "eks:DeleteCluster",
+        "eks:DescribeCluster",
+        "eks:ListClusters",
+        "eks:UpdateClusterConfig",
+        "eks:UpdateClusterVersion"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "EKSNodeGroupAccess",
+      "Effect": "Allow",
+      "Action": [
+        "eks:CreateNodegroup",
+        "eks:DeleteNodegroup",
+        "eks:DescribeNodegroup",
+        "eks:ListNodegroups",
+        "eks:UpdateNodegroupConfig",
+        "eks:UpdateNodegroupVersion"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "EKSAddonAccess",
+      "Effect": "Allow",
+      "Action": [
+        "eks:CreateAddon",
+        "eks:DeleteAddon",
+        "eks:DescribeAddon",
+        "eks:DescribeAddonVersions",
+        "eks:ListAddons",
+        "eks:UpdateAddon"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "IAMOpenIDConnectProviderAccess",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateOpenIDConnectProvider",
+        "iam:DeleteOpenIDConnectProvider",
+        "iam:GetOpenIDConnectProvider",
+        "iam:TagOpenIDConnectProvider",
+        "iam:UpdateOpenIDConnectProviderThumbprint"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "EksAccessForTerraform",
+      "Effect": "Allow",
+      "Action": [
+        "eks:*"
+      ],
+      "Resource": "*"
     }
+
   ]
 }
