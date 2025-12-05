@@ -240,7 +240,87 @@
         "eks:*"
       ],
       "Resource": "*"
+    },
+    {
+      "Sid": "ACMReadAccessForTerraform",
+      "Effect": "Allow",
+      "Action": [
+        "acm:ListCertificates",
+        "acm:DescribeCertificate"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "KarpenterSQS",
+      "Effect": "Allow",
+      "Action": [
+        "sqs:CreateQueue",
+        "sqs:GetQueueAttributes",
+        "sqs:SetQueueAttributes",
+        "sqs:DeleteQueue",
+        "sqs:ListQueueTags"  
+      ],
+      "Resource": "arn:aws:sqs:ap-northeast-2:997784788329:Karpenter-*"
+    },
+    {
+      "Sid": "KarpenterEventBridge",
+      "Effect": "Allow",
+      "Action": [
+        "events:PutRule",
+        "events:PutTargets",
+        "events:DescribeRule",
+        "events:DeleteRule",
+        "events:RemoveTargets",
+        "events:TagResource",
+        "events:ListTagsForResource",
+        "events:ListTargetsByRule"
+      ],
+      "Resource": "arn:aws:events:ap-northeast-2:997784788329:rule/Karpenter*"
+    },
+    {
+      "Sid": "MskAccessForTerraform",
+      "Effect": "Allow",
+      "Action": [
+        "kafka:CreateCluster",
+        "kafka:CreateClusterV2",
+        "kafka:DescribeCluster",
+        "kafka:DescribeClusterV2",
+        "kafka:ListClusters",
+        "kafka:ListClustersV2",
+        "kafka:DeleteCluster",
+        "kafka:DeleteClusterV2",
+        "kafka:GetBootstrapBrokers",
+        "kafka:UpdateClusterConfiguration",
+        "kafka:TagResource",
+        "kafka:UntagResource"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "IamInstanceProfileForTerraform",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateInstanceProfile",
+        "iam:DeleteInstanceProfile",
+        "iam:AddRoleToInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile",
+        "iam:GetInstanceProfile",
+        "iam:TagInstanceProfile"
+      ],
+      "Resource": "arn:aws:iam::${account_id}:instance-profile/*"
+    },
+    {
+      "Sid": "EcrPublicAccessForTerraform",
+      "Effect": "Allow",
+      "Action": [
+        "ecr-public:GetAuthorizationToken",
+        "ecr-public:BatchCheckLayerAvailability",
+        "ecr-public:DescribeImages",
+        "ecr-public:DescribeRepositories",
+        "ecr-public:BatchGetImage",
+        "sts:GetServiceBearerToken" 
+      ],
+      "Resource": "*"
     }
-
   ]
 }

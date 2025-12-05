@@ -32,6 +32,7 @@ resource "aws_subnet" "private_a" {
   tags = {
     Name = "${var.prefix}-private-a"
     Tier = "private"
+    "karpenter.sh/discovery"     = "come2us-eks"
   }
 }
 
@@ -43,6 +44,8 @@ resource "aws_subnet" "private_b" {
   tags = {
     Name = "${var.prefix}-private-b"
     Tier = "private"
+    "karpenter.sh/discovery"     = "come2us-eks"
+
   }
 }
 

@@ -9,6 +9,14 @@
 #   value = module.bastion.ssh_command
 # }
 
-# output "route53_ns" {
-#   value = module.route53.name_servers
-# }
+output "route53_ns" {
+  value = module.route53.name_servers
+}
+
+output "karpenter_controller_role_name" {
+  value = module.karpenter.iam_role_name
+}
+
+output "karpenter_controller_role_arn" {
+  value = module.karpenter.iam_role_arn
+}
