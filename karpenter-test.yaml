@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inflate
+  namespace: karpenter-test
+spec:
+  replicas: 30   # 일부러 크게, 나중에 숫자 올려도 됨
+  selector:
+    matchLabels:
+      app: inflate
+  template:
+    metadata:
+      labels:
+        app: inflate
+    spec:
+      containers:
+        - name: inflate
+          image: public.ecr.aws/eks-distro/kubernetes/pause:3.5
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
