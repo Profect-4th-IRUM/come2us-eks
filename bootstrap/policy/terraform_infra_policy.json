@@ -258,7 +258,7 @@
         "sqs:GetQueueAttributes",
         "sqs:SetQueueAttributes",
         "sqs:DeleteQueue",
-        "sqs:ListQueueTags"  
+        "sqs:ListQueueTags"
       ],
       "Resource": "arn:aws:sqs:ap-northeast-2:997784788329:Karpenter-*"
     },
@@ -293,7 +293,9 @@
         "kafka:UpdateClusterConfiguration",
         "kafka:UpdateSecurity",
         "kafka:TagResource",
-        "kafka:UntagResource"
+        "kafka:UntagResource",
+        "kafka:DescribeClusterOperation",
+        "kafka:ListClusterOperations"
       ],
       "Resource": "*"
     },
@@ -319,7 +321,7 @@
         "ecr-public:DescribeImages",
         "ecr-public:DescribeRepositories",
         "ecr-public:BatchGetImage",
-        "sts:GetServiceBearerToken" 
+        "sts:GetServiceBearerToken"
       ],
       "Resource": "*"
     }

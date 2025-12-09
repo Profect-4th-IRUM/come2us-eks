@@ -18,7 +18,17 @@ resource "aws_msk_cluster" "this" {
     unauthenticated = true
   }
 
-  tags = {
+
+  lifecycle {
+    ignore_changes = [
+      # 보안 관련 속성들 – 변경이 없을 때 굳이 UpdateSecurity 안 치게 하기
+      client_authentication,
+      encryption_info,
+      # 필요시 kafka_version_minor_version, configuration_info 등도 추가 가능
+    ]
+  }
+
+    tags = {
     project = "come2us"
   }
 }

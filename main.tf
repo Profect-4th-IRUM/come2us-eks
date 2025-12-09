@@ -304,11 +304,7 @@ module "karpenter" {
   create_pod_identity_association = true
 }
 
-data "aws_ecrpublic_authorization_token" "karpenter" {
-  provider = aws.us_east_1
-}
 
-# Karpenter 컨트롤러가 Karpenter 노드 롤을 PassRole 할 수 있도록 허용
 
 data "aws_iam_policy_document" "karpenter_passrole" {
   statement {
@@ -342,12 +338,10 @@ resource "helm_release" "karpenter" {
   namespace        = local.karpenter_namespace
   create_namespace = true
 
-  repository          = "oci://public.ecr.aws/karpenter"
-  # repository_username = data.aws_ecrpublic_authorization_token.karpenter.user_name
-  # repository_password = data.aws_ecrpublic_authorization_token.karpenter.password
-  chart               = "karpenter"
-  version             = "1.0.2" 
+  chart = "${path.module}/helm/karpenter/karpenter-1.0.2.tgz"
+
   wait                = false
+  
 
   values = [
     <<-EOT
@@ -376,12 +370,6 @@ resource "helm_release" "karpenter" {
       enabled: false
     EOT
   ]
-
-  lifecycle {
-    ignore_changes = [
-      repository_password
-    ]
-  }
 }
 
 module "aws_msk_cluster" {

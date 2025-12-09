@@ -124,6 +124,14 @@ resource "aws_security_group" "kafka_sg" {
     protocol        = "tcp"
     cidr_blocks     = [var.vpc_cidr]
   }
+  
+  ingress {
+    description = "PSY Personal IP"
+    from_port   = 9094
+    to_port     = 9094
+    protocol    = "tcp"
+    cidr_blocks = ["58.235.174.52/32"]
+  }
 
   egress {
     from_port   = 0
