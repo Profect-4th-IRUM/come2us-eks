@@ -71,7 +71,8 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = [aws_security_group.backend_sg.id]
+    # security_groups = [aws_security_group.backend_sg.id]
+    cidr_blocks     = [var.vpc_cidr]
   }
 
   egress {
@@ -91,11 +92,13 @@ resource "aws_security_group" "redis_sg" {
   vpc_id = var.vpc_id
 
   ingress {
-    description     = "Allow Redis access from Backend"
+    # description     = "Allow Redis access from Backend"
+    description     = "Allow Redis access from Same VPC"
     from_port       = 6379
     to_port         = 6380
     protocol        = "tcp"
-    security_groups = [aws_security_group.backend_sg.id]
+    # security_groups = [aws_security_group.backend_sg.id]
+    cidr_blocks     = [var.vpc_cidr]
   }
 
   egress {
@@ -107,6 +110,30 @@ resource "aws_security_group" "redis_sg" {
 
   tags = {
     Name = "come2us-redis-sg"
+  }
+}
+
+resource "aws_security_group" "kafka_sg" {
+  name   = "kafka-sg"
+  vpc_id = var.vpc_id
+
+  ingress {
+    description     = "Allow Kafka access from Same VPC"
+    from_port       = 9094
+    to_port         = 9094
+    protocol        = "tcp"
+    cidr_blocks     = [var.vpc_cidr]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "come2us-kafka-sg"
   }
 }
 

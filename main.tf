@@ -116,20 +116,19 @@ module "elasticache" {
   auth_token     = var.elasticache_auth_token
 }
 
-# module "ssm" {
-#   source = "./modules/ssm"
+module "ssm" {
+  source = "./modules/ssm"
 
-#   parameters = {
-#     "/${var.prefix}/config/GIT_USERNAME"             = var.git_username
-#     "/${var.prefix}/config/GIT_TOKEN"                = var.git_token
-#     "/${var.prefix}/jwt/JWT_ACCESS_TOKEN_SECRET"     = var.jwt_access_secret
-#     "/${var.prefix}/jwt/JWT_REFRESH_TOKEN_SECRET"    = var.jwt_refresh_secret
-#     "/${var.prefix}/rds/POSTGRESQL_PASSWORD"         = var.rds_password
-#     "/${var.prefix}/redis/DATA_REDIS_PASSWORD"       = var.elasticache_auth_token
-#     "/${var.prefix}/payment/TOSSPAYMENTS_SECRET_KEY" = var.toss_secret
-#     "/${var.prefix}/ai/GEMINI_API_KEY"               = var.gemini_api_key
-#   }
-# }
+  parameters = {
+    "/${var.prefix}/jwt/JWT_ACCESS_TOKEN_PRIVATE_KEY" = var.jwt_access_token_private_key
+    "/${var.prefix}/jwt/JWT_ACCESS_TOKEN_PUBLIC_KEY"  = var.jwt_access_token_public_key
+    "/${var.prefix}/jwt/JWT_REFRESH_TOKEN_SECRET"     = var.jwt_refresh_secret
+    "/${var.prefix}/rds/POSTGRESQL_PASSWORD"          = var.rds_password
+    "/${var.prefix}/redis/DATA_REDIS_PASSWORD"        = var.elasticache_auth_token
+    "/${var.prefix}/payment/TOSSPAYMENTS_SECRET_KEY"  = var.toss_secret
+    "/${var.prefix}/ai/GEMINI_API_KEY"                = var.gemini_api_key
+  }
+}
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
@@ -344,8 +343,8 @@ resource "helm_release" "karpenter" {
   create_namespace = true
 
   repository          = "oci://public.ecr.aws/karpenter"
-  repository_username = data.aws_ecrpublic_authorization_token.karpenter.user_name
-  repository_password = data.aws_ecrpublic_authorization_token.karpenter.password
+  # repository_username = data.aws_ecrpublic_authorization_token.karpenter.user_name
+  # repository_password = data.aws_ecrpublic_authorization_token.karpenter.password
   chart               = "karpenter"
   version             = "1.0.2" 
   wait                = false
@@ -390,13 +389,13 @@ module "aws_msk_cluster" {
 
   cluster_name           = "come2us-msk"
   kafka_version          = "3.8.x.kraft"
-  number_of_broker_nodes = 6
+  number_of_broker_nodes = 4
 
-  instance_type = "kafka.m5.large"
+  instance_type = "kafka.m7g.large"
   client_subnets = module.network.db_subnet_ids
-  volume_size = 1000
+  volume_size = 20
   
-  security_groups = [module.sg.backend_sg_id]
+  security_groups = [module.sg.kafka_sg_id]
 }
 
 module "iam" {

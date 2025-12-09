@@ -291,6 +291,7 @@
         "kafka:DeleteClusterV2",
         "kafka:GetBootstrapBrokers",
         "kafka:UpdateClusterConfiguration",
+        "kafka:UpdateSecurity",
         "kafka:TagResource",
         "kafka:UntagResource"
       ],

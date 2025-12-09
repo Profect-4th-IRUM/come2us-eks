@@ -14,8 +14,11 @@ resource "aws_msk_cluster" "this" {
     security_groups = var.security_groups
   }
 
+  client_authentication {
+    unauthenticated = true
+  }
+
   tags = {
     project = "come2us"
   }
 }
-
