@@ -93,23 +93,6 @@ module "ssm" {
   }
 }
 
-resource "aws_security_group_rule" "allow_istiod_webhook_from_control_plane" {
-  # 1. 수신지 (Destination): EKS 노드 그룹의 보안 그룹 ID (워커 노드 SG)
-  # eks 모듈은 기본적으로 노드 그룹 간 공유되는 하나의 보안 그룹을 생성하고 ID를 출력합니다.
-  security_group_id = module.eks.node_security_group_id 
-  
-  type              = "ingress"
-  from_port         = 15017
-  to_port           = 15017
-  protocol          = "tcp"
-  description       = "Allow EKS Control Plane to Istiod webhook on 15017"
-
-  # 2. 발신지 (Source): EKS 클러스터 Control Plane의 보안 그룹 ID
-  # Control Plane이 워커 노드로 트래픽을 보낼 때 이 SG를 소스로 사용합니다.
-  source_security_group_id = module.eks.cluster_security_group_id
-  
-  # Note: 이 규칙은 'infra_ng'와 'app_ng'를 포함한 모든 EKS 관리형 노드 그룹에 적용됩니다.
-}
 # module "aws_msk_cluster" {
 #   source = "./modules/msk"
 
