@@ -214,3 +214,9 @@ variable "account_id" {
   description = "AWS Account ID"
   type        = string
 }
+
+variable "eks_admin_user" {
+  description = "IAM User for managing EKS with kubectl"
+  type        = string
+  default     = "terraform-access"
+}
