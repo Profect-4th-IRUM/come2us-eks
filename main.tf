@@ -10,11 +10,6 @@ terraform {
       version = ">= 2.20.0"
     }
 
-    helm = {
-      source  = "hashicorp/helm"
-      version = ">= 2.6.0"
-    }
-
     utils = {
       source  = "cloudposse/utils"
       version = ">= 0.17.0"
@@ -298,46 +293,6 @@ resource "aws_iam_role_policy_attachment" "karpenter_controller_passrole" {
   policy_arn = aws_iam_policy.karpenter_passrole.arn
 }
 
-
-resource "helm_release" "karpenter" {
-  name             = "karpenter"
-  namespace        = local.karpenter_namespace
-  create_namespace = true
-
-  chart = "${path.module}/helm/karpenter/karpenter-1.0.2.tgz"
-
-  wait                = false
-  
-
-  values = [
-    <<-EOT
-    # 1. Controller Pod가 infra_ng 노드 그룹으로 스케줄링되도록 강제
-    nodeSelector:
-      karpenter.sh/controller: 'true'
-    tolerations:
-      - key: node_type
-        operator: Equal
-        value: infra
-        effect: NoSchedule
-        
-    # 2. 필수 설정
-    settings:
-      clusterName: ${module.eks.cluster_name}
-      clusterEndpoint: ${module.eks.cluster_endpoint}
-      interruptionQueue: ${module.karpenter.queue_name}
-
-    # 3. IRSA (혹은 Pod Identity) 연결 설정
-    serviceAccount:
-      annotations:
-        # Pod Identity를 사용하더라도, Pod Identity Agent가 이 annotation을 사용해 권한을 부여합니다.
-        eks.amazonaws.com/role-arn: ${module.karpenter.iam_role_arn} 
-        
-    webhook:
-      enabled: false
-    EOT
-  ]
-}
-
 module "aws_msk_cluster" {
   source = "./modules/msk"
 
@@ -363,92 +318,4 @@ module "route53" {
   source = "./modules/route53"
 
   domain_name = "come2us.store"
-}
-
-# ALB 컨트롤러가 사용할 ELB 관련 권한
-resource "aws_iam_policy" "aws_load_balancer_controller" {
-  name        = "AWSLoadBalancerControllerPolicy"
-  description = "Permissions for AWS Load Balancer Controller running on app_ng nodes"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "elasticloadbalancing:*",
-          "ec2:*"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
-variable "argocd_host" {
-  type        = string
-  description = "FQDN for ArgoCD server"
-  default     = "argocd.come2us.store"
-}
-
-variable "argocd_acm_arn" {
-  type        = string
-  description = "ACM certificate ARN for ArgoCD HTTPS"
-  default     = "arn:aws:acm:ap-northeast-2:997784788329:certificate/4f5f4057-92b3-45a3-94e3-13c3d1f873be"
-}
-
-# 1. Namespace
-resource "kubernetes_namespace" "argo" {
-  metadata {
-    name = "argo"
-  }
-}
-
-locals {
-  argocd_tolerations = [
-    {
-      key      = "node_type"
-      operator = "Equal"
-      value    = "infra"
-      effect   = "NoSchedule"
-    }
-  ]
-
-  argocd_node_selector = {
-    node_type = "infra"
-  }
-}
-
-# 2. ArgoCD 설치 (Helm)
-resource "helm_release" "argocd" {
-  name       = "argocd"
-  repository = "https://argoproj.github.io/argo-helm"
-  chart      = "argo-cd"
-  namespace  = kubernetes_namespace.argo.metadata[0].name
-  version    = "5.34.5"
-
-  values = [
-    jsonencode({
-      controller = {
-        tolerations = local.argocd_tolerations
-        nodeSelector = local.argocd_node_selector
-      }
-      server = {
-        tolerations = local.argocd_tolerations
-        nodeSelector = local.argocd_node_selector
-      }
-      repoServer = {
-        tolerations = local.argocd_tolerations
-        nodeSelector = local.argocd_node_selector
-      }
-      applicationSet = {
-        tolerations = local.argocd_tolerations
-        nodeSelector = local.argocd_node_selector
-      }
-      dex = {
-        tolerations = local.argocd_tolerations
-        nodeSelector = local.argocd_node_selector
-      }
-    })
-  ]
 }
