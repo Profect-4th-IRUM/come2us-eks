@@ -1,5 +1,5 @@
-bucket = "come2us-dev-tfstate"
-key    = "eks/dev/terraform.tfstate"
+bucket = "come2us-prod-tfstate"
+key    = "eks/prod/terraform.tfstate"
 region = "ap-northeast-2"
-dynamodb_table = "come2us-dev-tflock"
+dynamodb_table = "come2us-prod-tflock"
 profile = "terraform"

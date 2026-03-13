@@ -5,7 +5,7 @@ variable "project_name" {
 variable "environment" {
   description = "환경 이름 (e.g., dev, stage, prod)"
   type        = string
-  default     = "dev"
+  default     = "prod"
 }
 
 variable "region" {
