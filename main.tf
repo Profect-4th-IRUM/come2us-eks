@@ -293,19 +293,19 @@ resource "aws_iam_role_policy_attachment" "karpenter_controller_passrole" {
   policy_arn = aws_iam_policy.karpenter_passrole.arn
 }
 
-module "aws_msk_cluster" {
-  source = "./modules/msk"
+# module "aws_msk_cluster" {
+#   source = "./modules/msk"
 
-  cluster_name           = "come2us-msk"
-  kafka_version          = "3.8.x.kraft"
-  number_of_broker_nodes = 4
+#   cluster_name           = "come2us-msk"
+#   kafka_version          = "3.8.x.kraft"
+#   number_of_broker_nodes = 4
 
-  instance_type = "kafka.m7g.large"
-  client_subnets = module.network.db_subnet_ids
-  volume_size = 20
+#   instance_type = "kafka.m7g.large"
+#   client_subnets = module.network.db_subnet_ids
+#   volume_size = 20
   
-  security_groups = [module.sg.kafka_sg_id]
-}
+#   security_groups = [module.sg.kafka_sg_id]
+# }
 
 module "iam" {
   source        = "./modules/iam"
