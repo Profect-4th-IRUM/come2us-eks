@@ -313,8 +313,13 @@ variable "git_token" {
 }
 
 # JWT Config
-variable "jwt_access_secret" {
-  description = "JWT_ACCESS_TOKEN_SECRET"
+variable "jwt_access_token_private_key" {
+  description = "JWT_ACCESS_TOKEN_PRIVATE_KEY"
+  type        = string
+}
+
+variable "jwt_access_token_public_key" {
+  description = "JWT_ACCESS_TOKEN_PUBLIC_KEY"
   type        = string
 }
 
