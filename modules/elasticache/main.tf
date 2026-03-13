@@ -24,7 +24,7 @@ resource "aws_elasticache_cluster" "come2us_cache_redis" {
 
   tags = {
     Name        = "${var.prefix}-cache"
-    Environment = "dev"
+    Environment = "${var.environment}"
     ManagedBy   = "Terraform"
     Purpose     = "cache"
   }
@@ -60,7 +60,7 @@ resource "aws_elasticache_replication_group" "come2us_session_redis" {
 
   tags = {
     Name        = "${var.prefix}-session-redis"
-    Environment = "dev"
+    Environment = "${var.environment}"
     ManagedBy   = "Terraform"
     Purpose     = "session/transient"
   }

@@ -32,7 +32,7 @@ resource "aws_db_instance" "come2us_rds" {
 
   tags = {
     Name        = "${var.prefix}-primary"
-    Environment = "dev"
+    Environment = "${var.environment}"
     ManagedBy   = "Terraform"
     Role        = "primary"
   }

@@ -54,6 +54,7 @@ module "bastion" {
 module "rds" {
   source            = "./modules/rds"
   prefix            = "${var.prefix}-db"
+  environment       = var.environment
   subnet_ids        = module.network.db_subnet_ids
   vpc_id            = module.network.vpc_id
   sg_id             = module.sg.rds_sg_id
@@ -75,6 +76,7 @@ module "elasticache" {
   engine_version = var.elasticache_engine_version
   node_type      = var.elasticache_node_type
   auth_token     = var.elasticache_auth_token
+  environment    = var.environment 
 }
 
 module "ssm" {
@@ -310,7 +312,7 @@ resource "aws_iam_role_policy_attachment" "karpenter_controller_passrole" {
 module "iam" {
   source        = "./modules/iam"
   cluster_name  = module.eks.cluster_name
-  account_id    = "997784788329"
+  account_id    = var.account_id
   eks_admin_user = "terraform-access"
 }
 

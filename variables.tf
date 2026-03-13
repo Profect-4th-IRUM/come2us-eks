@@ -21,7 +21,13 @@ variable "terraform_role_arn" {
 variable "prefix" {
   default     = "come2us"
   type        = string
-  description = "Jenkins Instance Type"
+  description = "project prefix for resource naming"
+}
+
+variable "environment" {
+  description = "환경 이름 (e.g., dev, stage, prod)"
+  type        = string
+  default     = "prod"
 }
 
 # jenkins
