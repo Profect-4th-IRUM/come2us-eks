@@ -46,48 +46,6 @@ module "sg" {
 #   prefix = var.prefix
 # }
 
-# module "jenkins" {
-#   source        = "./modules/jenkins"
-#   ami_id        = var.docker_ami_id
-#   instance_type = var.jenkins_instance_type
-#   prefix        = var.prefix
-#   subnet_id     = module.network.private_subnet_a_id
-#   vpc_id        = module.network.vpc_id
-#   key_name      = module.keypair.key_name
-#   az            = var.azs[0]
-#   sg_id         = module.sg.backend_sg_id
-# }
-
-# module "alb_jenkins" {
-#   source             = "./modules/alb_jenkins"
-#   vpc_id             = module.network.vpc_id
-#   alb_sg_id          = module.sg.alb_sg_id
-#   subnet_ids         = module.network.public_subnet_ids
-#   target_instance_id = module.jenkins.instance_id
-#   prefix             = "${var.prefix}-jenkins"
-
-#   depends_on = [module.jenkins]
-# }
-
-# module "alb_service" {
-#   source       = "./modules/alb"
-#   vpc_id       = module.network.vpc_id
-#   alb_sg_id    = module.sg.alb_sg_id
-#   subnet_ids   = module.network.public_subnet_ids
-#   prefix       = "${var.prefix}-service"
-#   active_color = var.gateway_active_color
-#   # acm_certificate_arn = var.acm_certificate_arn
-# }
-
-# module "bastion" {
-#   source        = "./modules/bastion"
-#   ami_id        = var.ubuntu_ami_id
-#   instance_type = var.bastion_instance_type
-#   subnet_id     = module.network.public_subnet_a_id
-#   sg_id         = module.sg.bastion_sg_id
-#   key_name      = module.keypair.key_name
-#   prefix        = var.prefix
-# }
 module "bastion" {
   source        = "./modules/bastion"
   ami_id        = var.ubuntu_ami_id
