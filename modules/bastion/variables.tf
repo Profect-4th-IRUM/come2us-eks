@@ -19,11 +19,6 @@ variable "sg_id" {
   description = "Security Group ID for Bastion"
 }
 
-variable "key_name" {
-  type        = string
-  description = "SSH Key Pair name"
-}
-
 variable "prefix" {
   type        = string
   description = "Name prefix for Bastion resources"

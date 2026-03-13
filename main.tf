@@ -88,6 +88,14 @@ module "sg" {
 #   key_name      = module.keypair.key_name
 #   prefix        = var.prefix
 # }
+module "bastion" {
+  source        = "./modules/bastion"
+  ami_id        = var.ubuntu_ami_id
+  instance_type = var.bastion_instance_type
+  subnet_id     = module.network.public_subnet_a_id
+  sg_id         = module.sg.bastion_sg_id
+  prefix        = var.prefix
+}
 
 # RDS
 module "rds" {
