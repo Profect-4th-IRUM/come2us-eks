@@ -6,8 +6,9 @@ resource "aws_subnet" "public_a" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.prefix}-public-a"
-    Tier = "public"
+    Name                     = "${var.prefix}-public-a"
+    Tier                     = "public"
+    "kubernetes.io/role/elb" = "1"
   }
 }
 
@@ -18,8 +19,9 @@ resource "aws_subnet" "public_b" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.prefix}-public-b"
-    Tier = "public"
+    Name                     = "${var.prefix}-public-b"
+    Tier                     = "public"
+    "kubernetes.io/role/elb" = "1"
   }
 }
 
@@ -30,9 +32,10 @@ resource "aws_subnet" "private_a" {
   availability_zone = var.azs[0]
 
   tags = {
-    Name = "${var.prefix}-private-a"
-    Tier = "private"
-    "karpenter.sh/discovery"     = "come2us-eks"
+    Name                              = "${var.prefix}-private-a"
+    Tier                              = "private"
+    "karpenter.sh/discovery"          = "${var.prefix}-eks"
+    "kubernetes.io/role/internal-elb" = "1"
   }
 }
 
@@ -42,10 +45,10 @@ resource "aws_subnet" "private_b" {
   availability_zone = var.azs[1]
 
   tags = {
-    Name = "${var.prefix}-private-b"
-    Tier = "private"
-    "karpenter.sh/discovery"     = "come2us-eks"
-
+    Name                              = "${var.prefix}-private-b"
+    Tier                              = "private"
+    "karpenter.sh/discovery"          = "${var.prefix}-eks"
+    "kubernetes.io/role/internal-elb" = "1"
   }
 }
 
