@@ -41,33 +41,33 @@ module "bastion" {
 }
 
 # RDS
-module "rds" {
-  source            = "./modules/rds"
-  prefix            = "${var.prefix}-db"
-  environment       = var.environment
-  subnet_ids        = module.network.db_subnet_ids
-  vpc_id            = module.network.vpc_id
-  sg_id             = module.sg.rds_sg_id
-  instance_class    = var.rds_instance_class
-  allocated_storage = var.rds_allocated_storage
-  engine_version    = var.rds_engine_version
-  db_name           = var.rds_db_name
-  username          = var.rds_username
-  password          = var.rds_password
-  port              = var.rds_port
-}
+# module "rds" {
+#   source            = "./modules/rds"
+#   prefix            = "${var.prefix}-db"
+#   environment       = var.environment
+#   subnet_ids        = module.network.db_subnet_ids
+#   vpc_id            = module.network.vpc_id
+#   sg_id             = module.sg.rds_sg_id
+#   instance_class    = var.rds_instance_class
+#   allocated_storage = var.rds_allocated_storage
+#   engine_version    = var.rds_engine_version
+#   db_name           = var.rds_db_name
+#   username          = var.rds_username
+#   password          = var.rds_password
+#   port              = var.rds_port
+# }
 
-module "elasticache" {
-  source         = "./modules/elasticache"
-  prefix         = var.prefix
-  subnet_ids     = module.network.db_subnet_ids
-  sg_id          = module.sg.redis_sg_id
-  azs            = var.azs
-  engine_version = var.elasticache_engine_version
-  node_type      = var.elasticache_node_type
-  auth_token     = var.elasticache_auth_token
-  environment    = var.environment 
-}
+# module "elasticache" {
+#   source         = "./modules/elasticache"
+#   prefix         = var.prefix
+#   subnet_ids     = module.network.db_subnet_ids
+#   sg_id          = module.sg.redis_sg_id
+#   azs            = var.azs
+#   engine_version = var.elasticache_engine_version
+#   node_type      = var.elasticache_node_type
+#   auth_token     = var.elasticache_auth_token
+#   environment    = var.environment 
+# }
 
 module "ssm" {
   source = "./modules/ssm"
