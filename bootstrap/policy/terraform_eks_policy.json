@@ -48,7 +48,8 @@
         "iam:DeleteOpenIDConnectProvider",
         "iam:GetOpenIDConnectProvider",
         "iam:TagOpenIDConnectProvider",
-        "iam:UpdateOpenIDConnectProviderThumbprint"
+        "iam:UpdateOpenIDConnectProviderThumbprint",
+        "iam:ListOpenIDConnectProviders"
       ],
       "Resource": "*"
     },
@@ -65,7 +66,12 @@
       "Effect": "Allow",
       "Action": [
         "acm:ListCertificates",
-        "acm:DescribeCertificate"
+        "acm:DescribeCertificate",
+        "acm:RequestCertificate",
+        "acm:DeleteCertificate",
+        "acm:AddTagsToCertificate",
+        "acm:ListTagsForCertificate",
+        "acm:DescribeAccountLimits"
       ],
       "Resource": "*"
     },

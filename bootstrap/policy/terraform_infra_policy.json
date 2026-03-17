@@ -83,7 +83,8 @@
         "iam:ListAttachedRolePolicies",
         "iam:ListInstanceProfilesForRole",
         "iam:PassRole",
-        "iam:TagRole"
+        "iam:TagRole",
+        "iam:UpdateAssumeRolePolicy"
       ],
       "Resource": "arn:aws:iam::${account_id}:role/*"
     },
