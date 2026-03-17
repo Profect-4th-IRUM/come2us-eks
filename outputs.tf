@@ -13,6 +13,10 @@ output "route53_ns" {
   value = module.route53.name_servers
 }
 
+output "acm_certificate_arn" {
+  value = module.route53.acm_certificate_arn
+}
+
 # Karpenter
 output "karpenter_controller_role_name" {
   value = module.karpenter.iam_role_name
