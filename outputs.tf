@@ -9,12 +9,12 @@
 #   value = module.bastion.ssh_command
 # }
 
-output "route53_ns" {
-  value = module.route53.name_servers
-}
+# output "route53_ns" {
+#   value = module.route53.name_servers
+# }
 
 output "acm_certificate_arn" {
-  value = module.route53.acm_certificate_arn
+  value = data.terraform_remote_state.dns.outputs.acm_certificate_arn
 }
 
 # Karpenter
@@ -37,6 +37,10 @@ output "karpenter_node_role_arn" {
 # ALB Controller
 output "alb_controller_irsa_role_arn" {
   value = module.alb_controller_irsa.iam_role_arn # ServiceAccount annotation에 필요
+}
+
+output "external_dns_role_arn" {
+  value = module.external_dns_irsa.iam_role_arn
 }
 
 # EKS Cluster

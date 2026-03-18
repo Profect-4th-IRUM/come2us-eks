@@ -96,9 +96,3 @@ module "ssm" {
   
 #   security_groups = [module.sg.kafka_sg_id]
 # }
-
-module "route53" {
-  source = "./modules/route53"
-
-  domain_name = "come2us.store"
-}
