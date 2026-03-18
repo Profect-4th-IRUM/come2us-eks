@@ -1,0 +1,25 @@
+global:
+  tolerations:
+    - key: node_type
+      operator: Equal
+      value: infra
+      effect: NoSchedule
+  nodeSelector:
+    node_type: infra
+
+server:
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    hostname: "argocd.come2us.store"
+
+configs:
+  secret:
+    # admin
+    argocdServerAdminPassword: $2a$10$tyllVOs80cYi1pDzUvyj2OhNjpJDoydUXTqDVQyfoyLRinKS.MQyy
+  params:
+    server.insecure: true
