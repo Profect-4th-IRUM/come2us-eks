@@ -43,6 +43,11 @@ output "external_dns_role_arn" {
   value = module.external_dns_irsa.iam_role_arn
 }
 
+output "external_secrets_role_arn" {
+  description = "External Secrets Operator IRSA role ARN"
+  value       = module.external_secrets_irsa.iam_role_arn
+}
+
 # EKS Cluster
 output "cluster_name" {
   value = module.eks.cluster_name # Karpenter, ArgoCD 설정에 필요
