@@ -11,3 +11,6 @@ variable "eks_admin_user" {
   type = string
 }
 
+variable "terraform_role_arn" {
+  type = string
+}

@@ -9,3 +9,4 @@ variable "instance_class" {}
 variable "port" {}
 variable "engine_version" {}
 variable "allocated_storage" {}
+variable "environment" {}

@@ -44,3 +44,4 @@ terraform.rc
 
 # Ignore bootstrap lock
 bootstrap/.terraform.lock.hcl
+.terraform.lock.hcl

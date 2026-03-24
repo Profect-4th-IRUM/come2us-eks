@@ -83,7 +83,8 @@
         "iam:ListAttachedRolePolicies",
         "iam:ListInstanceProfilesForRole",
         "iam:PassRole",
-        "iam:TagRole"
+        "iam:TagRole",
+        "iam:UpdateAssumeRolePolicy"
       ],
       "Resource": "arn:aws:iam::${account_id}:role/*"
     },
@@ -183,101 +184,6 @@
       "Resource": "arn:aws:iam::${account_id}:policy/*"
     },
     {
-      "Sid": "EKSClusterAccess",
-      "Effect": "Allow",
-      "Action": [
-        "eks:CreateCluster",
-        "eks:DeleteCluster",
-        "eks:DescribeCluster",
-        "eks:ListClusters",
-        "eks:UpdateClusterConfig",
-        "eks:UpdateClusterVersion"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "EKSNodeGroupAccess",
-      "Effect": "Allow",
-      "Action": [
-        "eks:CreateNodegroup",
-        "eks:DeleteNodegroup",
-        "eks:DescribeNodegroup",
-        "eks:ListNodegroups",
-        "eks:UpdateNodegroupConfig",
-        "eks:UpdateNodegroupVersion"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "EKSAddonAccess",
-      "Effect": "Allow",
-      "Action": [
-        "eks:CreateAddon",
-        "eks:DeleteAddon",
-        "eks:DescribeAddon",
-        "eks:DescribeAddonVersions",
-        "eks:ListAddons",
-        "eks:UpdateAddon"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "IAMOpenIDConnectProviderAccess",
-      "Effect": "Allow",
-      "Action": [
-        "iam:CreateOpenIDConnectProvider",
-        "iam:DeleteOpenIDConnectProvider",
-        "iam:GetOpenIDConnectProvider",
-        "iam:TagOpenIDConnectProvider",
-        "iam:UpdateOpenIDConnectProviderThumbprint"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "EksAccessForTerraform",
-      "Effect": "Allow",
-      "Action": [
-        "eks:*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "ACMReadAccessForTerraform",
-      "Effect": "Allow",
-      "Action": [
-        "acm:ListCertificates",
-        "acm:DescribeCertificate"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "KarpenterSQS",
-      "Effect": "Allow",
-      "Action": [
-        "sqs:CreateQueue",
-        "sqs:GetQueueAttributes",
-        "sqs:SetQueueAttributes",
-        "sqs:DeleteQueue",
-        "sqs:ListQueueTags"
-      ],
-      "Resource": "arn:aws:sqs:ap-northeast-2:997784788329:Karpenter-*"
-    },
-    {
-      "Sid": "KarpenterEventBridge",
-      "Effect": "Allow",
-      "Action": [
-        "events:PutRule",
-        "events:PutTargets",
-        "events:DescribeRule",
-        "events:DeleteRule",
-        "events:RemoveTargets",
-        "events:TagResource",
-        "events:ListTagsForResource",
-        "events:ListTargetsByRule"
-      ],
-      "Resource": "arn:aws:events:ap-northeast-2:997784788329:rule/Karpenter*"
-    },
-    {
       "Sid": "MskAccessForTerraform",
       "Effect": "Allow",
       "Action": [
@@ -322,6 +228,20 @@
         "ecr-public:DescribeRepositories",
         "ecr-public:BatchGetImage",
         "sts:GetServiceBearerToken"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "SSMSessionAccess",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:StartSession",
+        "ssm:TerminateSession",
+        "ssm:DescribeSessions",
+        "ssm:GetConnectionStatus",
+        "ssm:DescribeInstanceInformation",
+        "ssm:SendCommand",
+        "ssm:GetCommandInvocation"
       ],
       "Resource": "*"
     }
