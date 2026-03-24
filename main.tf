@@ -80,6 +80,12 @@ module "ssm" {
     "/${var.prefix}/redis/DATA_REDIS_PASSWORD"        = var.elasticache_auth_token
     "/${var.prefix}/payment/TOSSPAYMENTS_SECRET_KEY"  = var.toss_secret
     "/${var.prefix}/ai/GEMINI_API_KEY"                = var.gemini_api_key
+
+    # "/${var.prefix}/rds/WRITE_POSTGRESQL_HOST"        = module.rds.rds_primary.address
+    # "/${var.prefix}/rds/READ_POSTGRESQL_HOST"         = module.rds.rds_replica.address
+    # "/${var.prefix}/redis/DATA_REDIS_HOST"            = module.elasticache.session_redis.address
+    # "/${var.prefix}/redis/CACHE_REDIS_HOST"           = module.elasticache.cache_redis.address
+    # "/${var.prefix}/msk/KAFKA_BOOTSTRAP_SERVERS"      = module.aws_msk_cluster.bootstrap_brokers_tls
   }
 }
 
